@@ -13,11 +13,14 @@ public class Transaction {
 
     private Double value;
 
+    private String type;
+
     public Transaction(){}
 
-    public Transaction(Account account, Double transactionValue){
+    public Transaction(Account account, Double transactionValue, String type){
         this.cbu = account.getCbu();
         this.value = transactionValue;
+        this.type = type;
     }
 
     public Long getTransactionID() {
@@ -42,5 +45,13 @@ public class Transaction {
 
     public void setCbu(Long accountCBU) {
         this.cbu = accountCBU;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

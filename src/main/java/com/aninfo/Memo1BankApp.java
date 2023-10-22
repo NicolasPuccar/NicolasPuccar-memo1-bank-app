@@ -41,16 +41,11 @@ public class Memo1BankApp {
 		return accountService.createAccount(account);
 	}
 
-	@PostMapping("/transactions")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Transaction createTransaction(@RequestBody Transaction transaction){
-		return transactionService.createTransaction(transaction);
-	}
 	@PostMapping("/transactions/{cbu}/withdraw")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Transaction createTransactionWithdraw(@PathVariable Long cbu, @RequestParam Double transactionValue){
 		Account account = accountService.findAccountByCbu(cbu);
-		Transaction transaction = new Transaction(account, transactionValue);
+		Transaction transaction = new Transaction(account, transactionValue,"Withdraw");
 		account = transactionService.withdraw(account,transactionValue);
 		return transactionService.createTransaction(transaction);
 	}
@@ -59,7 +54,7 @@ public class Memo1BankApp {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Transaction createTransactionDeposit(@PathVariable Long cbu, @RequestParam Double transactionValue){
 		Account account = accountService.findAccountByCbu(cbu);
-		Transaction transaction = new Transaction(account, transactionValue);
+		Transaction transaction = new Transaction(account, transactionValue, "Deposit");
 		account = transactionService.deposit(account,transactionValue);
 		return transactionService.createTransaction(transaction);
 	}
@@ -104,7 +99,7 @@ public class Memo1BankApp {
 		return ResponseEntity.ok().build();
 	}
 
-	@PutMapping("/transaction/{transactionID}")
+/*	@PutMapping("/transaction/{transactionID}")
 	public ResponseEntity<Account> updateTransaction(@RequestBody Transaction transaction, @PathVariable Long transactionID) {
 		Optional<Transaction> transactionOptional = transactionService.findById(transactionID);
 
@@ -114,7 +109,7 @@ public class Memo1BankApp {
 		transaction.setCbu(transactionID);
 		transactionService.save(transaction);
 		return ResponseEntity.ok().build();
-	}
+	}*/
 
 	@DeleteMapping("/accounts/{cbu}")
 	public void deleteAccount(@PathVariable Long cbu) {
@@ -124,17 +119,6 @@ public class Memo1BankApp {
 	public void deleteTransaction(@PathVariable Long transactionID) {
 		transactionService.deleteById(transactionID);
 	}
-
-	@PutMapping("/accounts/{cbu}/withdraw")
-	public Account withdraw(@PathVariable Long cbu, @RequestParam Double sum) {
-		return accountService.withdraw(cbu, sum);
-	}
-
-	@PutMapping("/accounts/{cbu}/deposit")
-	public Account deposit(@PathVariable Long cbu, @RequestParam Double sum) {
-		return accountService.deposit(cbu, sum);
-	}
-
 	@Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)

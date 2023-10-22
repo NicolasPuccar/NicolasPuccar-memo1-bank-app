@@ -37,17 +37,8 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     }
 
     @When("^Trying to withdraw (\\d+)$")
-    public void trying_to_withdraw(int sum) {
-        try {
-            account = withdraw(account, Double.valueOf(sum));
-        } catch (InsufficientFundsException ife) {
-            this.ife = ife;
-        }
-    }
-
-    @When("^Trying nico to withdraw (\\d+)$")
     public void trying_nico_to_withdraw(int sum) {
-        this.transaction = createTransaction(this.account, sum);
+        this.transaction = createTransaction(this.account, sum, "Withdraw");
         try {
             this.account = transactionWithdraw(this.account, this.transaction);
             saveAccount(this.account);
@@ -57,17 +48,8 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     }
 
     @When("^Trying to deposit (.*)$")
-    public void trying_to_deposit(int sum) {
-        try {
-            account = deposit(account, Double.valueOf(sum));
-        } catch (DepositNegativeSumException dnse) {
-            this.dnse = dnse;
-        }
-    }
-
-    @When("^Trying nico to deposit (.*)$")
     public void trying_nico_to_deposit(int sum) {
-        this.transaction = createTransaction(this.account, sum);
+        this.transaction = createTransaction(this.account, sum, "Deposit");
         try {
             this.account = findAccount(this.account);
             this.account = transactionDeposit(this.account, this.transaction);

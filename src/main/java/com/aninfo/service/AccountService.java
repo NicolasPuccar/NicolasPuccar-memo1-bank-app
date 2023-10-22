@@ -38,32 +38,5 @@ public class AccountService {
     }
 
     public Account findAccountByCbu(Long cbu){return accountRepository.findAccountByCbu(cbu);}
-    @Transactional
-    public Account withdraw(Long cbu, Double sum) {
-        Account account = accountRepository.findAccountByCbu(cbu);
-
-        if (account.getBalance() < sum) {
-            throw new InsufficientFundsException("Insufficient funds");
-        }
-
-        account.setBalance(account.getBalance() - sum);
-        accountRepository.save(account);
-
-        return account;
-    }
-
-    @Transactional
-    public Account deposit(Long cbu, Double sum) {
-
-        if (sum <= 0) {
-            throw new DepositNegativeSumException("Cannot deposit negative sums");
-        }
-
-        Account account = accountRepository.findAccountByCbu(cbu);
-        account.setBalance(account.getBalance() + sum);
-        accountRepository.save(account);
-
-        return account;
-    }
 
 }

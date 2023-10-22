@@ -22,8 +22,8 @@ public class AccountIntegrationServiceTest {
         return accountService.createAccount(new Account(balance));
     }
 
-    Transaction createTransaction(Account account, double transactionValue) {
-        return transactionService.createTransaction(new Transaction(account, transactionValue));
+    Transaction createTransaction(Account account, double transactionValue, String type) {
+        return transactionService.createTransaction(new Transaction(account, transactionValue, type));
     }
     Account transactionWithdraw(Account account,Transaction transaction){
         return transactionService.withdraw(account,transaction.getValue());
@@ -36,13 +36,5 @@ public class AccountIntegrationServiceTest {
     }
 
     Account findAccount(Account account){return accountService.findAccountByCbu(account.getCbu());}
-
-    Account withdraw(Account account, Double sum) {
-        return accountService.withdraw(account.getCbu(), sum);
-    }
-
-    Account deposit(Account account, Double sum) {
-        return accountService.deposit(account.getCbu(), sum);
-    }
 
 }
