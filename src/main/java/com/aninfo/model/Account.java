@@ -34,4 +34,8 @@ public class Account {
         this.balance = balance;
     }
 
+    public boolean verifyCbu(long cbu){
+        return(cbu == this.cbu);
+    }
+
 }

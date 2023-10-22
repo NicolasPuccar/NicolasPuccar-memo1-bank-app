@@ -3,6 +3,7 @@ package com.aninfo.integration.cucumber;
 import com.aninfo.exceptions.DepositNegativeSumException;
 import com.aninfo.exceptions.InsufficientFundsException;
 import com.aninfo.model.Account;
+import com.aninfo.model.Transaction;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class AccountOperationsTest extends AccountIntegrationServiceTest {
 
     private Account account;
+    private Transaction transaction;
     private InsufficientFundsException ife;
     private DepositNegativeSumException dnse;
 
@@ -29,6 +31,11 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
         account = createAccount(Double.valueOf(balance));
     }
 
+    @Given("^Account nico with a balance of (\\d+)$")
+    public void account_nico_with_a_balance_of(int balance)  {
+        this.account = createAccount(Double.valueOf(balance));
+    }
+
     @When("^Trying to withdraw (\\d+)$")
     public void trying_to_withdraw(int sum) {
         try {
@@ -38,10 +45,33 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
         }
     }
 
+    @When("^Trying nico to withdraw (\\d+)$")
+    public void trying_nico_to_withdraw(int sum) {
+        this.transaction = createTransaction(this.account, sum);
+        try {
+            this.account = transactionWithdraw(this.account, this.transaction);
+            saveAccount(this.account);
+        } catch (InsufficientFundsException ife) {
+            this.ife = ife;
+        }
+    }
+
     @When("^Trying to deposit (.*)$")
     public void trying_to_deposit(int sum) {
         try {
             account = deposit(account, Double.valueOf(sum));
+        } catch (DepositNegativeSumException dnse) {
+            this.dnse = dnse;
+        }
+    }
+
+    @When("^Trying nico to deposit (.*)$")
+    public void trying_nico_to_deposit(int sum) {
+        this.transaction = createTransaction(this.account, sum);
+        try {
+            this.account = findAccount(this.account);
+            this.account = transactionDeposit(this.account, this.transaction);
+            saveAccount(this.account);
         } catch (DepositNegativeSumException dnse) {
             this.dnse = dnse;
         }

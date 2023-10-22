@@ -37,6 +37,7 @@ public class AccountService {
         accountRepository.deleteById(cbu);
     }
 
+    public Account findAccountByCbu(Long cbu){return accountRepository.findAccountByCbu(cbu);}
     @Transactional
     public Account withdraw(Long cbu, Double sum) {
         Account account = accountRepository.findAccountByCbu(cbu);
