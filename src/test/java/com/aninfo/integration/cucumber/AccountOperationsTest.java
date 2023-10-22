@@ -31,11 +31,6 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
         account = createAccount(Double.valueOf(balance));
     }
 
-    @Given("^Account nico with a balance of (\\d+)$")
-    public void account_nico_with_a_balance_of(int balance)  {
-        this.account = createAccount(Double.valueOf(balance));
-    }
-
     @When("^Trying to withdraw (\\d+)$")
     public void trying_nico_to_withdraw(int sum) {
         this.transaction = createTransaction(this.account, sum, "Withdraw");
