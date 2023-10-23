@@ -32,7 +32,7 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     }
 
     @When("^Trying to withdraw (\\d+)$")
-    public void trying_nico_to_withdraw(int sum) {
+    public void trying_to_withdraw(int sum) {
         this.transaction = createTransaction(this.account, sum, "Withdraw");
         try {
             this.account = transactionWithdraw(this.account, this.transaction);
@@ -43,7 +43,7 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     }
 
     @When("^Trying to deposit (.*)$")
-    public void trying_nico_to_deposit(int sum) {
+    public void trying_to_deposit(int sum) {
         this.transaction = createTransaction(this.account, sum, "Deposit");
         try {
             this.account = findAccount(this.account);

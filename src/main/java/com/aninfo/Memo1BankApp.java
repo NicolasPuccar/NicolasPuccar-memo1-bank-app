@@ -77,7 +77,6 @@ public class Memo1BankApp {
 
 	@GetMapping("/transactions/cbu/{cbu}")
 	public List<Transaction> getTransactionsByCbu(@PathVariable Long cbu) {
-		System.out.println("estoy en el banco\n");
 		return transactionService.findByCbuId(cbu);
 	}
 
@@ -90,7 +89,6 @@ public class Memo1BankApp {
 	@PutMapping("/accounts/{cbu}")
 	public ResponseEntity<Account> updateAccount(@RequestBody Account account, @PathVariable Long cbu) {
 		Optional<Account> accountOptional = accountService.findById(cbu);
-		System.out.println("estoy aqui\n");
 		if (!accountOptional.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
